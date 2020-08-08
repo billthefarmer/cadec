@@ -1,0 +1,37 @@
+  SUBSTATION NO:       EQUIPMENT ID:         DATA CONCENTRATOR NO:
+
+  CIRCUIT NAME:            [              ]  OUTSTATION ADDRESS:
+  BUSBAR CODE:             [  ]
+
+  EQUIPMENT TYPE:
+
+  PROCESSING             : [   ]
+  CLASSIFICATION         : [   ]
+  OPERATIONAL DOCUMENT   : [        ]
+  OPERATIONAL RESTRICTION: [ ]
+  EQUIPMENT STATE WARNING: [      ]
+  CONTROL IN PROGRESS    : [   ]
+  CADEC COMMISSIONED     : [   ]
+  ANALOGUES COMMISSIONED : [   ]
+  ESC TRANSFORMER COUNT  : [   ]
+  EMERGENCY OVERRIDE     : [   ]
+
+                 ASSOCIATED ANALOGUES
+
+  ANALOGUE      RANGE          LIMITS          ACTUAL  AVERAGE
+  NO  TYPE    HI     LO      HI      LO        VALUE    VALUE
+
+                          [       ][       ]
+                          [       ][       ]
+                          [       ][       ]
+                          [       ][       ]
+                          [       ][       ]
+
+  SEASONAL HIGH LIMITS     WINTER    SUMMER    SPR/AUT
+
+                          [       ] [       ] [       ]
+                          [       ] [       ] [       ]
+                          [       ] [       ] [       ]
+                          [       ] [       ] [       ]
+                          [       ] [       ] [       ]
+                                                                              4
