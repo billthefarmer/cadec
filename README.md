@@ -1,2 +1,2 @@
-# cadec
+# Cadec
 Cadec simulator
