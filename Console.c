@@ -65,6 +65,9 @@ void textmode()
                                                NULL);
     SetConsoleActiveScreenBuffer(hConsoleOutput);
 
+    // Set code page
+    SetConsoleOutputCP(437);
+
     // Close old handle
     CloseHandle(handle);
 }
