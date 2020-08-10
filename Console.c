@@ -17,59 +17,51 @@
 
 HANDLE hConsoleOutput, hConsoleInput;
 
-// handles
-void handles()
-{
-    DWORD mode;
-
-    // Disable Ctrl-C
-    SetConsoleCtrlHandler(NULL, TRUE);
-
-    // Get handles
-    if (hConsoleOutput == NULL)
-        hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
-
-    if (hConsoleInput == NULL)
-        hConsoleInput = GetStdHandle(STD_INPUT_HANDLE);
-
-    // Update console mode
-    GetConsoleMode(hConsoleOutput, &mode);
-    SetConsoleMode(hConsoleOutput, mode | ENABLE_PROCESSED_OUTPUT);
-
-    GetConsoleMode(hConsoleInput, &mode);
-    SetConsoleMode(hConsoleInput, mode & !ENABLE_ECHO_INPUT);
-}
-
 // textmode
 void textmode()
 {
     CONSOLE_SCREEN_BUFFER_INFO info;
     HANDLE handle;
+    DWORD mode;
 
-    // Get handles
+    // Do it once
     if (hConsoleOutput == NULL)
-        handles();
+    {
+        // Disable Ctrl-C
+        SetConsoleCtrlHandler(NULL, TRUE);
 
-    // Resize window
-    GetConsoleScreenBufferInfo(hConsoleOutput, &info);
-    info.srWindow.Right = info.srWindow.Left + 82;
-    info.srWindow.Bottom = info.srWindow.Top + 48;
-    SetConsoleWindowInfo(hConsoleOutput, TRUE, &info.srWindow);
+        // Get handles
+        hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
+        hConsoleInput = GetStdHandle(STD_INPUT_HANDLE);
 
-    // Save handle
-    handle = hConsoleOutput;
+        // Update console mode
+        GetConsoleMode(hConsoleOutput, &mode);
+        SetConsoleMode(hConsoleOutput, mode | ENABLE_PROCESSED_OUTPUT);
+        GetConsoleMode(hConsoleInput, &mode);
+        SetConsoleMode(hConsoleInput, mode & !ENABLE_ECHO_INPUT);
 
-    // Create new screen buffer to get rid of scroll bars
-    hConsoleOutput = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0,
-                                               NULL, CONSOLE_TEXTMODE_BUFFER,
-                                               NULL);
-    SetConsoleActiveScreenBuffer(hConsoleOutput);
+        // Resize window
+        GetConsoleScreenBufferInfo(hConsoleOutput, &info);
+        info.srWindow.Right = info.srWindow.Left + WIDTH;
+        info.srWindow.Bottom = info.srWindow.Top + HEIGHT;
+        SetConsoleWindowInfo(hConsoleOutput, TRUE, &info.srWindow);
 
-    // Set code page
-    SetConsoleOutputCP(437);
+        // Save handle
+        handle = hConsoleOutput;
 
-    // Close old handle
-    CloseHandle(handle);
+        // Create new screen buffer to get rid of scroll bars
+        hConsoleOutput =
+            CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0,
+                                      NULL, CONSOLE_TEXTMODE_BUFFER,
+                                      NULL);
+        SetConsoleActiveScreenBuffer(hConsoleOutput);
+
+        // Set code page
+        SetConsoleOutputCP(437);
+
+        // Close old handle
+        CloseHandle(handle);
+    }
 }
 
 void textcolor(int f, int b)
@@ -121,9 +113,6 @@ int cputs(char *s)
 {
     DWORD n;
 
-    if (hConsoleOutput == NULL)
-        handles();
-
     return WriteConsole(hConsoleOutput, s, strlen(s), &n, NULL);
 }
 
@@ -151,6 +140,8 @@ int kbhit()
     DWORD n;
     INPUT_RECORD record;
 
+    // Wait for something to happen
+    WaitForSingleObject(hConsoleInput, TIMER);
     GetNumberOfConsoleInputEvents(hConsoleInput, &n);
 
     if (n > 0)
@@ -162,8 +153,8 @@ int kbhit()
             (record.Event.KeyEvent.wVirtualKeyCode == VK_CONTROL) ||
             (record.Event.KeyEvent.wVirtualKeyCode == VK_MENU) ||
             (record.Event.KeyEvent.wVirtualKeyCode == VK_CAPITAL) ||
-            (!record.Event.KeyEvent.bKeyDown &&
-             record.Event.KeyEvent.uChar.AsciiChar > 0))
+            // And key up events
+            (!record.Event.KeyEvent.bKeyDown))
             ReadConsoleInput(hConsoleInput, &record, 1, &n);
 
         // Update the event count
@@ -201,16 +192,42 @@ int getch()
 {
     DWORD n;
     INPUT_RECORD record;
+    static BOOL special;
 
+    // If the char is zero, return zero, but don't read event
+    PeekConsoleInput(hConsoleInput, &record, 1, &n);
+    if (!special && record.Event.KeyEvent.uChar.AsciiChar == 0)
+    {
+        special = TRUE;
+        return 0;
+    }
+
+    // Read the event
     ReadConsoleInput(hConsoleInput, &record, 1, &n);
-    if (record.Event.KeyEvent.bKeyDown)
+    // Not special, return the char
+    if (!special)
         return record.Event.KeyEvent.uChar.AsciiChar;
 
-    else if (record.Event.KeyEvent.dwControlKeyState & LEFT_ALT_PRESSED)
+    // Special, shift pressed, return key code plus shift
+    else if (record.Event.KeyEvent.dwControlKeyState & SHIFT_PRESSED)
+    {
+        special = FALSE;
         return record.Event.KeyEvent.wVirtualKeyCode + VK_SHIFT;
+    }
 
+    // Special, alt pressed, return key code plus shift
+    else if (record.Event.KeyEvent.dwControlKeyState & LEFT_ALT_PRESSED)
+    {
+        special = FALSE;
+        return record.Event.KeyEvent.wVirtualKeyCode + VK_SHIFT * 2;
+    }
+
+    // Special, return key code
     else
+    {
+        special = FALSE;
         return record.Event.KeyEvent.wVirtualKeyCode;
+    }
 }
 
 int wherex()

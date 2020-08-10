@@ -10,39 +10,6 @@
 #include <windows.h>
 #include <unistd.h>
 
-// Colours
-// #define BLINK     0
-// #define BLACK     30
-// #define BROWN     33
-// #define LIGHTGRAY 90
-// #define RED       91
-// #define GREEN     92
-// #define YELLOW    93
-// #define BLUE      94
-// #define MAGENTA   95
-// #define CYAN      96
-// #define WHITE     97
-
-// 30 Foreground        Black 	Applies non-bold/bright black to foreground
-// 33 Foreground        Yellow 	Applies non-bold/bright yellow to foreground
-// 40 Background        Black 	Applies non-bold/bright black to background
-// 90 Bright Foreground Black   Applies bold/bright black to foreground
-// 91 Bright Foreground Red 	Applies bold/bright red to foreground
-// 92 Bright Foreground Green   Applies bold/bright green to foreground
-// 93 Bright Foreground Yellow  Applies bold/bright yellow to foreground
-// 94 Bright Foreground Blue 	Applies bold/bright blue to foreground
-// 95 Bright Foreground Magenta Applies bold/bright magenta to foreground
-// 96 Bright Foreground Cyan 	Applies bold/bright cyan to foreground
-// 97 Bright Foreground White   Applies bold/bright white to foreground
-// 100 Bright Background Black 	Applies bold/bright black to background
-// 101 Bright Background Red 	Applies bold/bright red to background
-// 102 Bright Background Green 	Applies bold/bright green to background
-// 103 Bright Background Yellow Applies bold/bright yellow to background
-// 104 Bright Background Blue 	Applies bold/bright blue to background
-// 105 Bright Background MagentaApplies bold/bright magenta to background
-// 106 Bright Background Cyan 	Applies bold/bright cyan to background
-// 107 Bright Background White 	Applies bold/bright white to background
-
 #define BLINK     0
 #define BLACK     0
 #define BROWN     FOREGROUND_RED | FOREGROUND_GREEN
@@ -79,6 +46,13 @@
 #define C4350
 #define ESC "\x1b"
 #define CSI "\x1b["
+
+enum
+    {WIDTH  = 82,
+     HEIGHT = 50};
+
+enum
+    {TIMER = 1000};
 
 enum
     {_NOCURSOR,

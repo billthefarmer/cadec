@@ -3,7 +3,7 @@
 /*****************************************************************************/
 
 #undef DOS
-#define TESTING
+#undef TESTING
 
 #define	textcolour	textcolor
 

@@ -1,0 +1,34 @@
+// Resources
+#include <windows.h>
+
+Cadec   ICON   "Cadec.ico"
+
+VS_VERSION_INFO VERSIONINFO
+FILEVERSION    	1,0,0,0
+PRODUCTVERSION 	1,0,0,0
+FILEFLAGSMASK  	VS_FFI_FILEFLAGSMASK
+FILEFLAGS      	0x0L
+FILEOS         	VOS__WINDOWS32
+FILETYPE       	VFT_APP
+FILESUBTYPE    	VFT2_UNKNOWN
+
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "080904B0"
+        BEGIN
+            VALUE "CompanyName",      "Bill Farmer"
+            VALUE "FileDescription",  "Telecontrol simulator"
+            VALUE "FileVersion",      "1.00"
+            VALUE "InternalName",     "Cadec"
+            VALUE "LegalCopyright",   "Copyright (C) 2020 Bill Farmer"
+            VALUE "OriginalFilename", "Cadec.exe"
+            VALUE "ProductName",      "Cadec"
+            VALUE "ProductVersion",   "1.00"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x809, 0x4B0
+    END
+END

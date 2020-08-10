@@ -1,13 +1,13 @@
 /****** cadec.c ***************************************************************
  *
- *  CADEC -- Copyright (C) 1997 Bill Farmer
+ *  CADEC - Copyright (C) 1997-2020 Bill Farmer
  *
  *  Emulation of PDP11 based telecontrol system
  *  on standard PC hardware.
  *
  *****************************************************************************/
 
-char copy[] = "CADEC -- Copyright (C) 1997 Bill Farmer";
+char copy[] = "CADEC - Copyright (C) 1997-2020 Bill Farmer";
 
 #include <process.h>
 #include <string.h>
@@ -1166,8 +1166,8 @@ void DrawingEdit(int x, int y)
     DisplayTime(s);
 
     gotoxy(x, y);
-    _setcursortype(_SOLIDCURSOR);
     SetColours(WHITE, BLACK);
+    _setcursortype(_SOLIDCURSOR);
 
     for (;;)
     {
@@ -4498,7 +4498,7 @@ void DisplayExit()
 
     SetColours(BLACK, WHITE);
     clrscr();
-    gotoxy(1, 1);
+    gotoxy(-1, 0);
 
     cputs("CADEC SYSTEM SHUTTING DOWN");
     sleep(1);
@@ -4523,10 +4523,9 @@ void ShowPosition(int x, int y)
 {
     int c;
 
-    gotoxy(10, 47);
     _setcursortype(_NOCURSOR);
+    gotoxy(10, 47);
     SetColours(GREEN, BLACK);
-    cputs("          ");
 
     if ((y > 7) && (y < 47))
     {
@@ -4537,9 +4536,12 @@ void ShowPosition(int x, int y)
         cprintf("%3d%3d%4d", x, y, c);
     }
 
+    else
+        cputs("          ");
+
     gotoxy(x, y);
-    _setcursortype(_SOLIDCURSOR);
     SetColours(WHITE, BLACK);
+    _setcursortype(_SOLIDCURSOR);
 }
 
 /*****************************************************************************/
@@ -4628,15 +4630,13 @@ void ProcessKey()
     x = wherex();
     y = wherey();
 
-    ShowPosition(CommandIndex + 1, 1);
-
     if ((c = getch()) == '\0')
     {
         Command[CommandIndex] = '\0';
 
         switch (c = getch())
         {
-        case VK_END + VK_SHIFT:
+        case VK_F12 + VK_SHIFT * 2:
             ProcessPosition(x, y, "<EXIT>");
             ProcessString(Exit);
             break;
@@ -4713,7 +4713,7 @@ void ProcessKey()
             ShowPosition(x, y);
             return;
 
-        case 76:
+        case VK_END + VK_SHIFT:
             ProcessPosition(x, y, "<TRIP>");
             ProcessString(Trip);
             break;
@@ -4765,12 +4765,12 @@ void ProcessKey()
             ProcessString(Edit);
             break;
 
-        case 110:
+        case VK_F7 + VK_SHIFT * 2:
             ProcessPosition(x, y, "<SEFOFF>");
             ProcessString(Protoff);
             break;
 
-        case 111:
+        case VK_F8 + VK_SHIFT * 2:
             ProcessPosition(x, y, "<SEFON>");
             ProcessString(Proton);
             break;
@@ -4812,8 +4812,9 @@ void ProcessKey()
     {
         if (isprint(c))
         {
-            c = toupper(c);
+            ShowPosition(CommandIndex + 1, 1);
 
+            c = toupper(c);
             Command[CommandIndex++] = c;
             putch(c);
         }
@@ -5091,7 +5092,7 @@ void DisplayPurpleCursor()
 
     if (getrandom(100) < ProbCursor)
     {
-        SetColours(MAGENTA, BLACK);
+        SetColours(BLACK, GREEN);
         _setcursortype(_SOLIDCURSOR);
         cputs(" \b");
 
@@ -6087,9 +6088,9 @@ void DisplayCadec()
     gotoxy(8, 34);
     cputs("лллллллллллл  лллл      лл  лллллллллллл  лллллллллл  лллллллллллл");
 
-    gotoxy(21, 12);
+    gotoxy(19, 12);
     SetColours(YELLOW, BLACK);
-    cputs("CADEC -- COPYRIGHT (C) 1997 BILL FARMER");
+    cputs("CADEC - COPYRIGHT (C) 1997-2020 BILL FARMER");
 
     gotoxy(1, 1);
     SetColours(WHITE, BLACK);
