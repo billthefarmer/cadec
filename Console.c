@@ -69,10 +69,6 @@ void textcolor(int f, int b)
     SetConsoleTextAttribute(hConsoleOutput, f + b * BACKGROUND_BLUE);
 }
 
-void textbackground(int c)
-{
-}
-
 void gotoxy(int x, int y)
 {
     COORD posn = {x + 1, y};
@@ -208,25 +204,25 @@ int getch()
     if (!special)
         return record.Event.KeyEvent.uChar.AsciiChar;
 
-    // Special, shift pressed, return key code plus shift
-    else if (record.Event.KeyEvent.dwControlKeyState & SHIFT_PRESSED)
+    special = FALSE;
+    switch (record.Event.KeyEvent.dwControlKeyState &
+            (SHIFT_PRESSED | LEFT_ALT_PRESSED))
     {
-        special = FALSE;
-        return record.Event.KeyEvent.wVirtualKeyCode + VK_SHIFT;
-    }
-
-    // Special, alt pressed, return key code plus shift
-    else if (record.Event.KeyEvent.dwControlKeyState & LEFT_ALT_PRESSED)
-    {
-        special = FALSE;
-        return record.Event.KeyEvent.wVirtualKeyCode + VK_SHIFT * 2;
-    }
-
-    // Special, return key code
-    else
-    {
-        special = FALSE;
+        // Special, return key code
+    case 0:
         return record.Event.KeyEvent.wVirtualKeyCode;
+
+        // Special, shift pressed, return key code plus shift
+    case SHIFT_PRESSED:
+        return record.Event.KeyEvent.wVirtualKeyCode + VK_SHIFT;
+
+        // Special, alt pressed, return key code plus shift
+    case LEFT_ALT_PRESSED:
+        return record.Event.KeyEvent.wVirtualKeyCode + VK_SHIFT * 2;
+
+        // Special, shift and alt pressed, return key code plus shift
+    case SHIFT_PRESSED | LEFT_ALT_PRESSED:
+        return record.Event.KeyEvent.wVirtualKeyCode + VK_SHIFT * 3;
     }
 }
 
