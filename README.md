@@ -24,6 +24,8 @@ original code used BIOS and DOS calls to control external devices such
 as a ding dong and to determine the presence of a dot matrix printer
 for printing logs, this functionality won't work and is not used.
 
+The system is built using MSYS2 using the Makefile provided.
+
 This repository does not contain the original database as this was an
 accurate copy of part of the network as it existed.
 
