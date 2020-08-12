@@ -16,6 +16,8 @@ This system existed in use, upgraded to MicroPDP-11/93 microcomputers,
 until past the millenium and had to be Y2K upgraded by the development
 team.
 
+![RSX](RSX.png)
+
 This simulation is of the display for one control desk for the
 upgraded system. It was originally written in Borland Turbo C for a
 DOS PC using their conio library. I have added source files to convert
