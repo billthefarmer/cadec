@@ -62,7 +62,6 @@ enum
 // Functions
 void textmode(void);
 void textcolor(int, int);
-void textbackground(int);
 void gotoxy(int, int);
 void clreol(void);
 void clrscr(void);
