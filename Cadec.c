@@ -24,7 +24,7 @@ char copy[] = "CADEC - Copyright (C) 1997-2020 Bill Farmer";
 char Command[96] = {0},
     *CommandList[] =
     {"GIN", "SSD", "SST", "EVT", "ALM", "ALA",
-     "OPE", "CLS", "PON", "POF", "AON", "AOF",
+     "OPE", "CLS", "AON", "AOF", "PON", "POF",
      "RFR", "DCN", "PGB", "PGO", "FND", "SYS",
      "SPR", "TRP", "EFI", "ANA", "OPS", "PSR",
      "PPC", "PTR", "DRW", "SAR", "ZAP", "SJF",
