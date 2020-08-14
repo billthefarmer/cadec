@@ -3019,7 +3019,11 @@ int DisplayConfirm()
         {
             SetColours(WHITE, BLACK);
 
-            if (getch() == VK_RETURN)
+            int c = getch();
+            if (c == 0)
+                continue;
+
+            else if (c == VK_RETURN)
             {
                 _setcursortype(_NOCURSOR);
                 cputs("<CONFIRM>");
