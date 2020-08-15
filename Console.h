@@ -22,34 +22,15 @@
 #define CYAN      FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY
 #define WHITE     FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | \
                   FOREGROUND_INTENSITY
-
-// FOREGROUND_BLUE 	Text color contains blue.
-// FOREGROUND_GREEN 	Text color contains green.
-// FOREGROUND_RED 	Text color contains red.
-// FOREGROUND_INTENSITY Text color is intensified.
-// BACKGROUND_BLUE 	Background color contains blue.
-// BACKGROUND_GREEN 	Background color contains green.
-// BACKGROUND_RED 	Background color contains red.
-// BACKGROUND_INTENSITY Background color is intensified.
-
-// #define FOREGROUND_BLUE 0x1
-// #define FOREGROUND_GREEN 0x2
-// #define FOREGROUND_RED 0x4
-// #define FOREGROUND_INTENSITY 0x8
-// #define BACKGROUND_BLUE 0x10
-// #define BACKGROUND_GREEN 0x20
-// #define BACKGROUND_RED 0x40
-// #define BACKGROUND_INTENSITY 0x80
-
 // Text modes
 #define C80
 #define C4350
-#define ESC "\x1b"
-#define CSI "\x1b["
 
 enum
-    {WIDTH  = 82,
-     HEIGHT = 50};
+    {SCREEN_WIDTH  = 82,
+     SCREEN_HEIGHT = 50,
+     BUFFER_WIDTH  = 83,
+     BUFFER_HEIGHT = 51};
 
 enum
     {TIMER = 1000};

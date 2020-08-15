@@ -21,7 +21,7 @@ HANDLE hConsoleOutput, hConsoleInput;
 void textmode()
 {
     CONSOLE_SCREEN_BUFFER_INFO info;
-    HANDLE handle;
+    COORD size;
     DWORD mode;
 
     // Do it once
@@ -42,25 +42,15 @@ void textmode()
 
         // Resize window
         GetConsoleScreenBufferInfo(hConsoleOutput, &info);
-        info.srWindow.Right = info.srWindow.Left + WIDTH;
-        info.srWindow.Bottom = info.srWindow.Top + HEIGHT;
+        info.srWindow.Right = info.srWindow.Left + SCREEN_WIDTH;
+        info.srWindow.Bottom = info.srWindow.Top + SCREEN_HEIGHT;
         SetConsoleWindowInfo(hConsoleOutput, TRUE, &info.srWindow);
-
-        // Save handle
-        handle = hConsoleOutput;
-
-        // Create new screen buffer to get rid of scroll bars
-        hConsoleOutput =
-            CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0,
-                                      NULL, CONSOLE_TEXTMODE_BUFFER,
-                                      NULL);
-        SetConsoleActiveScreenBuffer(hConsoleOutput);
+        size.X = BUFFER_WIDTH;
+        size.Y = BUFFER_HEIGHT;
+        SetConsoleScreenBufferSize(hConsoleOutput, size);
 
         // Set code page
         SetConsoleOutputCP(437);
-
-        // Close old handle
-        CloseHandle(handle);
     }
 }
 
@@ -78,8 +68,8 @@ void gotoxy(int x, int y)
 
 void clreol()
 {
-    DWORD n;
     CONSOLE_SCREEN_BUFFER_INFO info;
+    DWORD n;
 
     GetConsoleScreenBufferInfo(hConsoleOutput, &info);
     FillConsoleOutputAttribute(hConsoleOutput, info.wAttributes,
@@ -92,9 +82,9 @@ void clreol()
 
 void clrscr()
 {
-    DWORD n;
-    COORD posn = {0, 0};
     CONSOLE_SCREEN_BUFFER_INFO info;
+    COORD posn = {0, 0};
+    DWORD n;
 
     GetConsoleScreenBufferInfo(hConsoleOutput, &info);
     FillConsoleOutputAttribute(hConsoleOutput, info.wAttributes,
@@ -133,8 +123,8 @@ int cprintf(char *f, ...)
 
 int kbhit()
 {
-    DWORD n;
     INPUT_RECORD record;
+    DWORD n;
 
     // Wait for something to happen
     WaitForSingleObject(hConsoleInput, TIMER);
@@ -186,9 +176,9 @@ void _setcursortype(int type)
 
 int getch()
 {
-    DWORD n;
     INPUT_RECORD record;
     static BOOL special;
+    DWORD n;
 
     // If the char is zero, return zero, but don't read event
     PeekConsoleInput(hConsoleInput, &record, 1, &n);
