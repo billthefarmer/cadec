@@ -1,11 +1,13 @@
 # Cadec
 Cadec simulator
 
-![Cadec](Cadec.png)
+![Label](Label.jpg)
 
 Cadec was a telecontrol system built by the Westinghouse Brake and
 Signal company in the late 70's for the South Eastern Electricity
 Board and installed and commissioned in the early 80's.
+
+![Cadec](Cadec.png)
 
 The control system was initially based on DEC PDP-11/34 minicomputers
 with DEC colour display controllers driving large colour monitors with
