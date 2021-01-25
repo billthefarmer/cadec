@@ -1,0 +1,26 @@
+on:
+  push:
+    branches:
+      - master
+    tags-ignore:
+      - '*'
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: "actions/checkout@v2"
+      - name: Install g++-mingw-w64
+        run: |
+          sudo apt update
+          sudo apt install g++-mingw-w64
+      - name: Build
+        run: |
+          make GCC=x86_64-w64-mingw32-gcc WINDRES=x86_64-w64-mingw32-windres
+      - name: Upload
+        uses: actions/upload-artifact@v2
+        with:
+          name: Cadec.exe
+          path: Cadec.exe
