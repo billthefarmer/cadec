@@ -4495,10 +4495,11 @@ void DisplayExit()
     free(pSubstation);
     free(pEquipment);
 
+    sleep(1);
+
 #ifndef TESTING
 
     textmode(C80);
-    sleep(1);
 
     SetColours(BLACK, WHITE);
     clrscr();
