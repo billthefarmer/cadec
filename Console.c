@@ -18,7 +18,7 @@
 HANDLE hConsoleOutput, hConsoleInput;
 
 // textmode
-void textmode()
+void textmode(int screenmode)
 {
     CONSOLE_SCREEN_BUFFER_INFO info;
     COORD size;
@@ -40,17 +40,33 @@ void textmode()
         GetConsoleMode(hConsoleInput, &mode);
         SetConsoleMode(hConsoleInput, mode & !ENABLE_ECHO_INPUT);
 
-        // Resize window
-        GetConsoleScreenBufferInfo(hConsoleOutput, &info);
-        info.srWindow.Right = info.srWindow.Left + SCREEN_WIDTH;
-        info.srWindow.Bottom = info.srWindow.Top + SCREEN_HEIGHT;
-        SetConsoleWindowInfo(hConsoleOutput, TRUE, &info.srWindow);
-        size.X = BUFFER_WIDTH;
-        size.Y = BUFFER_HEIGHT;
-        SetConsoleScreenBufferSize(hConsoleOutput, size);
-
         // Set code page
         SetConsoleOutputCP(437);
+    }
+
+    switch (screenmode)
+    {
+    case C80:
+        // Resize window
+        size.X = C80_BUFFER_WIDTH;
+        size.Y = C80_BUFFER_HEIGHT;
+        SetConsoleScreenBufferSize(hConsoleOutput, size);
+        GetConsoleScreenBufferInfo(hConsoleOutput, &info);
+        info.srWindow.Right = info.srWindow.Left + C80_SCREEN_WIDTH;
+        info.srWindow.Bottom = info.srWindow.Top + C80_SCREEN_HEIGHT;
+        SetConsoleWindowInfo(hConsoleOutput, TRUE, &info.srWindow);
+        break;
+
+    case C50:
+        // Resize window
+        size.X = C50_BUFFER_WIDTH;
+        size.Y = C50_BUFFER_HEIGHT;
+        SetConsoleScreenBufferSize(hConsoleOutput, size);
+        GetConsoleScreenBufferInfo(hConsoleOutput, &info);
+        info.srWindow.Right = info.srWindow.Left + C50_SCREEN_WIDTH;
+        info.srWindow.Bottom = info.srWindow.Top + C50_SCREEN_HEIGHT;
+        SetConsoleWindowInfo(hConsoleOutput, TRUE, &info.srWindow);
+        break;
     }
 }
 

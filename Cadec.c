@@ -4495,11 +4495,10 @@ void DisplayExit()
     free(pSubstation);
     free(pEquipment);
 
-    sleep(1);
-
 #ifndef TESTING
 
     textmode(C80);
+    sleep(1);
 
     SetColours(BLACK, WHITE);
     clrscr();
@@ -6009,8 +6008,9 @@ void InitDisplay()
 
 #endif
 
-    textmode(C4350);
+    textmode(C50);
     SetColours(WHITE, BLACK);
+    gotoxy(1, 1);
     clrscr();
     sleep(1);
 

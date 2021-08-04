@@ -23,25 +23,32 @@
 #define WHITE     FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | \
                   FOREGROUND_INTENSITY
 // Text modes
-#define C80
-#define C4350
-
 enum
-    {SCREEN_WIDTH  = 82,
-     SCREEN_HEIGHT = 50,
-     BUFFER_WIDTH  = 83,
-     BUFFER_HEIGHT = 51};
+    {C80,
+     C50};
+
+// Sizes
+enum
+    {C80_SCREEN_WIDTH  = 82,
+     C80_SCREEN_HEIGHT = 24,
+     C80_BUFFER_WIDTH  = 83,
+     C80_BUFFER_HEIGHT = 25,
+     C50_SCREEN_WIDTH  = 82,
+     C50_SCREEN_HEIGHT = 50,
+     C50_BUFFER_WIDTH  = 83,
+     C50_BUFFER_HEIGHT = 51};
 
 enum
     {TIMER = 1000};
 
+// Cursor
 enum
     {_NOCURSOR,
      _SOLIDCURSOR,
      _NORMALCURSOR};
 
 // Functions
-void textmode(void);
+void textmode(int);
 void textcolor(int, int);
 void gotoxy(int, int);
 void clreol(void);
